@@ -2,6 +2,7 @@
 #include <SFML/Audio.hpp>
 #include <vector>
 #include <iostream>
+#include <algorithm>
 
 
 using namespace sf;
@@ -27,6 +28,7 @@ public:
     Fifteens() {
         reset();
     }
+
 
     void reset()
     {
@@ -95,6 +97,71 @@ public:
            
     }
 
+    void shuffle() {
+
+        /*random_shuffle(tiles.begin(), tiles.end());*/
+
+        srand((time(0))); 
+        for (int i = 0; i < size * size; ++i) {
+            int j = std::rand() % (SIZE * SIZE);
+            swap(tiles[i], tiles[j]);
+        }
+    }
+
+    int findEmptyTile() const {
+        for (int i = 0; i < size * size; ++i) {
+            if (tiles[i] == 0) return i;
+        }
+        return -1;
+    } //const тут означає, що метод не змінює жодних змінних-членів (tiles) цього класу.
+
+
+
+    bool validToMoveTile(int indexOfTileToMove) {
+        int indexOfEmptyTile = findEmptyTile();
+
+        // Перевірка, чи плитка може переміщатися зліва, справа, зверху або знизу
+        if ((indexOfTileToMove == indexOfEmptyTile - 1 && indexOfTileToMove / size == indexOfEmptyTile / size) ||  // плитка ліворуч
+            (indexOfTileToMove == indexOfEmptyTile + 1 && indexOfTileToMove / size == indexOfEmptyTile / size) ||  // плитка праворуч
+            (indexOfTileToMove == indexOfEmptyTile - size) || // плитка зверху
+            (indexOfTileToMove == indexOfEmptyTile + size))   // плитка знизу
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+
+
+    void moveTile(int indexOfTileToMove)
+    {
+        int indexOfEmptyTile = findEmptyTile();
+
+        if (validToMoveTile(indexOfTileToMove)) swap(tiles[indexOfTileToMove], tiles[indexOfEmptyTile]);
+    
+    }
+
+    bool isSolved() const {
+        for (int i = 0; i < SIZE * SIZE - 1; ++i) {
+            if (tiles[i] != i + 1) return false;
+        }
+        return tiles[SIZE * SIZE - 1] == 0;
+    }
+
+    int getClickedTilePosition(int mouseX, int mouseY)
+    {
+        int row = mouseY / TILE_SIZE;
+        int col = mouseX / TILE_SIZE;
+        int index = row * size + col;
+
+        if (index >= 0 && index < size * size) {
+            return index;
+        }
+        return -1; // Якщо не на плитку
+    }
+
+
 };
 
 
@@ -102,34 +169,16 @@ public:
 int main() {
     system("chcp 1251>null");
 
-
-
     // Створюємо вікно розміру 800x600
     RenderWindow window(VideoMode(WINDOW_SIZE, WINDOW_SIZE), "SFML Window Fifteen Game");
     
     
 
-    // Sprite creation
-
-    /*Texture texture;
-    if (!texture.loadFromFile("mySprite.jpg")) return EXIT_FAILURE;
-    
-    Sprite sprite(texture);*/
-
-
-    // Text
-
-   /* Font font;
-    if (!font.loadFromFile("arial.ttf"))
-        return EXIT_FAILURE;
-    Text text("Hello SFML", font, 50);*/
-   
-
-
     // Об'єкт для обробки подій
     Event event;
 
     Fifteens myFifteens;
+    myFifteens.shuffle();
 
     // Основний цикл
     while (window.isOpen()) {
@@ -140,6 +189,25 @@ int main() {
             if (event.type == Event::Closed) {
                 window.close(); // Закриваємо вікно при натисканні "Закрити"
             }
+
+            // Перевірка чи натиснута миша
+            if (event.type == Event::MouseButtonPressed) {
+                // Перевірка чи натиснута ЛІВА кнопка миші
+                if (event.key.code == Mouse::Left) 
+                {
+                    Vector2i pos = Mouse::getPosition(window);
+
+                    int mouseX = pos.x;
+                    int mouseY = pos.y;
+
+
+                    int selectedTile = myFifteens.getClickedTilePosition(mouseX, mouseY);
+
+                    if (selectedTile != -1) myFifteens.moveTile(selectedTile);
+                }
+            }
+
+
         }
 
         // Очищаємо вікно чорним кольором
