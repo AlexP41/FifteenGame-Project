@@ -15,6 +15,8 @@ const int WINDOW_SIZE = TILE_SIZE * SIZE; // Розмір вікна
 
 
 
+
+
 class Fifteens {
 
 private:
@@ -132,8 +134,6 @@ public:
         return false;
     }
 
-
-
     void moveTile(int indexOfTileToMove)
     {
         int indexOfEmptyTile = findEmptyTile();
@@ -178,7 +178,13 @@ int main() {
     Event event;
 
     Fifteens myFifteens;
-    myFifteens.shuffle();
+    
+
+    Font font;
+    if (!font.loadFromFile("Fonts/Arial.ttf")) {
+        cerr << "Error loading font!" << endl;
+        return -1;
+    }
 
     // Основний цикл
     while (window.isOpen()) {
@@ -205,16 +211,34 @@ int main() {
 
                     if (selectedTile != -1) myFifteens.moveTile(selectedTile);
                 }
+
             }
 
 
+
+
         }
+
 
         // Очищаємо вікно чорним кольором
         window.clear(Color::Black);
 
         // Малюємо коло на екрані
         myFifteens.showTilesOnScreen(window);
+
+
+        // якщо пятнашкі розв'язані
+        if (myFifteens.isSolved()) {
+            Text winText("You Win!", font, 50);
+            winText.setFillColor(Color::Green);
+            winText.setPosition(100, 150);
+
+            window.clear(Color::Yellow);  // Очищаємо екран жовтим кольором
+
+
+
+            window.draw(winText);  // Малюємо текст "You Win!
+        }
 
         // Оновлюємо вікно
         window.display();
