@@ -1,4 +1,4 @@
-#include <SFML/Graphics.hpp>
+п»ї#include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <vector>
 #include <iostream>
@@ -8,9 +8,10 @@ using namespace sf;
 using namespace std;
 
 
-const int SIZE = 4; // Розмір поля 4x4
-const int TILE_SIZE = 100; // Розмір кожної плитки
-const int WINDOW_SIZE = TILE_SIZE * SIZE; // Розмір вікна
+const int SIZE = 4; // Р РѕР·РјС–СЂ РїРѕР»СЏ 4x4
+const int TILE_SIZE = 100; // Р РѕР·РјС–СЂ РєРѕР¶РЅРѕС— РїР»РёС‚РєРё
+const int WINDOW_SIZE = TILE_SIZE * SIZE; // Р РѕР·РјС–СЂ РІС–РєРЅР°
+
 
 
 class Fifteens {
@@ -44,13 +45,13 @@ public:
             int X_pos = (i % size) * TILE_SIZE;
             int Y_pos = (i / size) * TILE_SIZE;
 
-            // Створення об'єкту "плитка"
+            // РЎС‚РІРѕСЂРµРЅРЅСЏ РѕР±'С”РєС‚Сѓ "РїР»РёС‚РєР°"
             RectangleShape tile(Vector2f(TILE_SIZE, TILE_SIZE));
 
-            // Встановлюємо плитку на відповідне місце
+            // Р’СЃС‚Р°РЅРѕРІР»СЋС”РјРѕ РїР»РёС‚РєСѓ РЅР° РІС–РґРїРѕРІС–РґРЅРµ РјС–СЃС†Рµ
             tile.setPosition(X_pos, Y_pos);
 
-            // Задаємо параметри для кожної плитки
+            // Р—Р°РґР°С”РјРѕ РїР°СЂР°РјРµС‚СЂРё РґР»СЏ РєРѕР¶РЅРѕС— РїР»РёС‚РєРё
             tile.setOutlineColor(Color::Black);
             tile.setOutlineThickness(3);
 
@@ -59,25 +60,25 @@ public:
 
                 tile.setFillColor(Color::Cyan);
 
-                // Створюємо шрифт "Arial"
+                // РЎС‚РІРѕСЂСЋС”РјРѕ С€СЂРёС„С‚ "Arial"
                 Font font;
                 if (!font.loadFromFile("Fonts/Arial.ttf")) {
                     cerr << "Error loading font!" << endl;
                 }
 
-                // Створюємо шрифт текст із номером плитки
+                // РЎС‚РІРѕСЂСЋС”РјРѕ С€СЂРёС„С‚ С‚РµРєСЃС‚ С–Р· РЅРѕРјРµСЂРѕРј РїР»РёС‚РєРё
                 Text text(to_string(tiles[i]), font, 30);
 
-                // Встановлюємо колір 
+                // Р’СЃС‚Р°РЅРѕРІР»СЋС”РјРѕ РєРѕР»С–СЂ 
                 text.setFillColor(sf::Color::Black);
 
-                // Встановлюємо текст по середины плитки із урахуванням товщини бордерів
+                // Р’СЃС‚Р°РЅРѕРІР»СЋС”РјРѕ С‚РµРєСЃС‚ РїРѕ СЃРµСЂРµРґРёРЅС‹ РїР»РёС‚РєРё С–Р· СѓСЂР°С…СѓРІР°РЅРЅСЏРј С‚РѕРІС‰РёРЅРё Р±РѕСЂРґРµСЂС–РІ
                 text.setPosition(X_pos + TILE_SIZE / 2 - text.getLocalBounds().width / 2,
                     Y_pos + TILE_SIZE / 2 - text.getLocalBounds().height / 2);
 
 
 
-                // відображаємо плитку і текст
+                // РІС–РґРѕР±СЂР°Р¶Р°С”РјРѕ РїР»РёС‚РєСѓ С– С‚РµРєСЃС‚
                 window.draw(tile);
                 window.draw(text);
             }
@@ -99,8 +100,11 @@ public:
 
 
 int main() {
+    system("chcp 1251>null");
 
-    // Створюємо вікно розміру 800x600
+
+
+    // РЎС‚РІРѕСЂСЋС”РјРѕ РІС–РєРЅРѕ СЂРѕР·РјС–СЂСѓ 800x600
     RenderWindow window(VideoMode(WINDOW_SIZE, WINDOW_SIZE), "SFML Window Fifteen Game");
     
     
@@ -122,29 +126,29 @@ int main() {
    
 
 
-    // Об'єкт для обробки подій
+    // РћР±'С”РєС‚ РґР»СЏ РѕР±СЂРѕР±РєРё РїРѕРґС–Р№
     Event event;
 
     Fifteens myFifteens;
 
-    // Основний цикл
+    // РћСЃРЅРѕРІРЅРёР№ С†РёРєР»
     while (window.isOpen()) {
-        // Обробка подій
-        // window.pollEvent(event) — функція, яка витягує події з черги подій, що виникли у вікні. 
-        // Вона повертає true, якщо є нові події.
+        // РћР±СЂРѕР±РєР° РїРѕРґС–Р№
+        // window.pollEvent(event) вЂ” С„СѓРЅРєС†С–СЏ, СЏРєР° РІРёС‚СЏРіСѓС” РїРѕРґС–С— Р· С‡РµСЂРіРё РїРѕРґС–Р№, С‰Рѕ РІРёРЅРёРєР»Рё Сѓ РІС–РєРЅС–. 
+        // Р’РѕРЅР° РїРѕРІРµСЂС‚Р°С” true, СЏРєС‰Рѕ С” РЅРѕРІС– РїРѕРґС–С—.
         while (window.pollEvent(event)) {
             if (event.type == Event::Closed) {
-                window.close(); // Закриваємо вікно при натисканні "Закрити"
+                window.close(); // Р—Р°РєСЂРёРІР°С”РјРѕ РІС–РєРЅРѕ РїСЂРё РЅР°С‚РёСЃРєР°РЅРЅС– "Р—Р°РєСЂРёС‚Рё"
             }
         }
 
-        // Очищаємо вікно чорним кольором
+        // РћС‡РёС‰Р°С”РјРѕ РІС–РєРЅРѕ С‡РѕСЂРЅРёРј РєРѕР»СЊРѕСЂРѕРј
         window.clear(Color::Black);
 
-        // Малюємо коло на екрані
+        // РњР°Р»СЋС”РјРѕ РєРѕР»Рѕ РЅР° РµРєСЂР°РЅС–
         myFifteens.showTilesOnScreen(window);
 
-        // Оновлюємо вікно
+        // РћРЅРѕРІР»СЋС”РјРѕ РІС–РєРЅРѕ
         window.display();
     }
 
