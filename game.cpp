@@ -114,15 +114,15 @@ public:
 
         // Originally created way to shuffle fifteens
 
-        /*srand((time(0))); 
+        srand((time(0))); 
         for (int i = 0; i < size * size; ++i) {
             int j = std::rand() % (SIZE * SIZE);
             swap(tiles[i], tiles[j]);
-        }*/
+        }
 
 
         // -------------------    FOR TEST    ------------------------------------- //
-        swap(tiles[size*size-2], tiles[size * size - 1]);
+        /*swap(tiles[size*size-2], tiles[size * size - 1]);*/
         // ------------------------------------------------------------------------ //
     }
 
