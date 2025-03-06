@@ -3,6 +3,8 @@
 #include <vector>
 #include <iostream>
 #include <algorithm>
+#include <fstream>
+#include <string>
 
 
 #include "game.h"
@@ -108,12 +110,20 @@ public:
 
         /*random_shuffle(tiles.begin(), tiles.end());*/
 
+
+
+        // Originally created way to shuffle fifteens
+
         /*srand((time(0))); 
         for (int i = 0; i < size * size; ++i) {
             int j = std::rand() % (SIZE * SIZE);
             swap(tiles[i], tiles[j]);
         }*/
+
+
+        // -------------------    FOR TEST    ------------------------------------- //
         swap(tiles[size*size-2], tiles[size * size - 1]);
+        // ------------------------------------------------------------------------ //
     }
 
     int findEmptyTile() const {
@@ -175,6 +185,12 @@ public:
 int game() {
     system("chcp 1251>null");
 
+    double bestTime = -1;
+
+    // Витягуємо найкращий результат із текстовоого файлу
+    bestTime = extractBestTime(bestTime, -1);
+
+
     // Створюємо вікно розміру 800x600
     RenderWindow gameWindow(VideoMode(WINDOW_SIZE, WINDOW_SIZE), "SFML Window Fifteen Game");
     
@@ -184,6 +200,14 @@ int game() {
 
     // Об'єкт для обробки подій
     Event event;
+
+    // Початок відліку гри
+    double newBestTime;
+    Clock newBestTimeTimer;
+    newBestTimeTimer.restart();
+
+
+
 
     Clock clock;
 
@@ -215,7 +239,8 @@ int game() {
                 gameWindow.close(); // Закриваємо вікно при натисканні "Закрити"
                 
             }
-
+            // У C++ :: (двокрапка з подвійним знаком) використовується для доступу до елементів простору імен (namespace), класів або структур.
+            // MouseButtonPressed — це один із членів класу Event, який вказує, що була натиснута кнопка миші.
             // Перевірка чи натиснута миша
             if (event.type == Event::MouseButtonPressed) {
                 // Перевірка чи натиснута ЛІВА кнопка миші
@@ -246,6 +271,10 @@ int game() {
 
         // якщо пятнашкі розв'язані
         if (myFifteens.isSolved()) {
+
+           
+
+
             Text winText("You Win!", font, 50);
             winText.setFillColor(Color::Green);
             winText.setPosition(100, 150);
@@ -259,16 +288,34 @@ int game() {
             if (startCountTime) // Важливий момент про який я не одразу здогадався, 
                 //адже нам потрібно починати відлік тільки один раз, а не кожний раз під час виконання циклу while (gameWindow.isOpen())
             {
-                clock.restart(); // Перезапускаємо годинник, щоб почати відлік часу
+                clock.restart();// Перезапускаємо годинник, щоб почати відлік часу
+                newBestTime = round(newBestTimeTimer.getElapsedTime().asSeconds() * 100) / 100.0; // Обчислення і округлення нового найкращого результату
                 startCountTime = false;
             }
         }
 
         
         if (isWin && clock.getElapsedTime().asSeconds() >= 3) {
+            // Запис Новоого кращого результату
+            if (newBestTime < bestTime) 
+            {
+                ofstream fileAgain("the-best-time.txt", ios::out);
+
+                if (!fileAgain)
+                {
+                    cout << "File has not been found." << endl;
+                    return 1;
+                }
+                fileAgain << newBestTime;
+
+                fileAgain.close();
+            }
+            
+            
+
+
             gameWindow.close();// Закриваємо вікно після 3 секунд
             main();
-        
         }
 
         // Оновлюємо вікно

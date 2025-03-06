@@ -7,6 +7,7 @@
 void showMainMenu(sf::RenderWindow& window, sf::Font& font);
 bool startGame(int mouseX, int mouseY);
 bool exitGame(int mouseX, int mouseY);
+double extractBestTime(double bestTime, double defaultValueOfBestTime);
 
 #endif // MENU_H
 

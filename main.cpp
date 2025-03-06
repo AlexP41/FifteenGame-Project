@@ -25,11 +25,19 @@ int main() {
 
     Event event;
 
+    // Основний цикл
     while (window.isOpen()) {
+        // Обробка подій
+        // window.pollEvent(event) — функція, яка витягує події з черги подій, що виникли у вікні. 
+        // Вона повертає true, якщо є нові події.
         while (window.pollEvent(event)) {
             if (event.type == Event::Closed) {
                 window.close();
             }
+  
+            // У C++ :: (двокрапка з подвійним знаком) використовується для доступу до елементів простору імен (namespace), класів або структур.
+            // MouseButtonPressed — це один із членів класу Event, який вказує, що була натиснута кнопка миші.
+
             if (event.type == Event::MouseButtonPressed && event.mouseButton.button == Mouse::Left) {
                 int mouseX = event.mouseButton.x;
                 int mouseY = event.mouseButton.y;
