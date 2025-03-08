@@ -49,7 +49,7 @@ double extractBestTime(double bestTime, double defaultValueOfBestTime) {
     file.close();
 
     // якщо початкоового значення не отримано
-    if (bestTime == defaultValueOfBestTime)
+    if (bestTime == defaultValueOfBestTime || bestTime == 0)
     {
         bestTime = numeric_limits<double>::max();
     }
