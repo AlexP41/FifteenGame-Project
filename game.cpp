@@ -235,6 +235,33 @@ int game() {
         // Вона повертає true, якщо є нові події.
         while (gameWindow.pollEvent(event)) {
             if (event.type == Event::Closed) {
+
+
+                // -------------------    FOR TEST    ------------------------------------- //
+
+                //if (startCountTime) // Важливий момент про який я не одразу здогадався, 
+                //    //адже нам потрібно починати відлік тільки один раз, а не кожний раз під час виконання циклу while (gameWindow.isOpen())
+                //{
+                //    clock.restart();// Перезапускаємо годинник, щоб почати відлік часу
+                //    newBestTime = round(newBestTimeTimer.getElapsedTime().asSeconds() * 100) / 100.0; // Обчислення і округлення нового найкращого результату
+                //    startCountTime = false;
+                //}
+                //
+                //if (newBestTime < bestTime)
+                //{
+                //    ofstream fileAgain("the-best-time.txt", ios::out);
+
+                //    if (!fileAgain)
+                //    {
+                //        cout << "File has not been found." << endl;
+                //        return 1;
+                //    }
+                //    fileAgain << newBestTime;
+
+                //    fileAgain.close();
+                //}
+                
+                // ------------------------------------------------------------------------ //
                 
                 gameWindow.close(); // Закриваємо вікно при натисканні "Закрити"
                 
